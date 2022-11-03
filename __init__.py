@@ -210,7 +210,7 @@ class CMIResults_PT_panel_3(CMIResults_panel, bpy.types.Panel):
             addTestUI("Triangles Percentage", str(round(cmiProperties.sceneTrianglesPercentage, 2)) + "%", layout, cmiProperties.sceneTrianglesPercentageResult, CMI_OT_SelectTrianglesTest)
             addTestUI("N-Gons", cmiProperties.sceneNgons, layout, cmiProperties.sceneNgonsResult, None)
             addTestUI("N-Gons Percentage", str(round(cmiProperties.sceneNgonsPercentage,2)) + "%", layout, cmiProperties.sceneNgonsPercentageResult, CMI_OT_SelectNgonsTest)
-            addTestUI("Loose Vertices", cmiProperties.sceneIsolatedVertices, layout, cmiProperties.sceneIsolatedVerticesResult, CMI_OT_IsolatedVerticesTest)
+            addTestUI("Isolated Vertices", cmiProperties.sceneIsolatedVertices, layout, cmiProperties.sceneIsolatedVerticesResult, CMI_OT_IsolatedVerticesTest)
             addTestUI("Overlapping Vertices", cmiProperties.sceneOverlappingVertices, layout, cmiProperties.sceneOverlappingVerticesResult, CMI_OT_OverlappingVerticesTest)
             addTestUI("Overlapping Faces", cmiProperties.sceneOverlappingFaces, layout, cmiProperties.sceneOverlappingFacesResult, CMI_OT_OverlappingFacesTest)
         else:
@@ -527,7 +527,7 @@ def checkMissingTextures():
                 if s.material and s.material.use_nodes:
                     for n in s.material.node_tree.nodes:
                         if n.type == 'TEX_IMAGE':
-                            if not exists(bpy.path.abspath(n.image.filepath)):
+                            if n.image and not exists(bpy.path.abspath(n.image.filepath)) and not n.image.packed_file:
                                 if n.image not in missingTextures:
                                     missingTextures.append(n.image)
                                 if obj not in objMissingTextures:
