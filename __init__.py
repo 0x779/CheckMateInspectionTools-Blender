@@ -807,10 +807,10 @@ def startTest(context, type):
             cmiProperties.sceneIsolatedVerticesResult = 1 if checkLooseVerts(False)[0] else 0
 
             cmiProperties.sceneOverlappingVertices = checkOverlappingVerts(0.0001, False)[1]
-            cmiProperties.sceneOverlappingVerticesResult = 1 if checkOverlappingVerts(0.001, False)[0] else 0
+            cmiProperties.sceneOverlappingVerticesResult = 1 if checkOverlappingVerts(0.0001, False)[0] else 0
 
             cmiProperties.sceneOverlappingFaces = checkOverlappingFaces(0.0001, False)[1]
-            cmiProperties.sceneOverlappingFacesResult = 1 if checkOverlappingFaces(0.001, False)[0] else 0
+            cmiProperties.sceneOverlappingFacesResult = 1 if checkOverlappingFaces(0.0001, False)[0] else 0
 
             # Test materials
             cmiProperties.sceneObjectsNoMat = len(checkMissingMaterials()[1])
