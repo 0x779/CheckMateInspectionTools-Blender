@@ -4,7 +4,7 @@ bl_info = {
     "name" : "CheckMate Inspection Tools",
     "description" : "CheckMate Pro/Lite Inspection Tools for Blender",
     "author" : "0x779",
-    "version" : (0, 1, 0),
+    "version" : (0, 1, 1),
     "blender" : (2, 80, 0),
     "location" : "View3D and Properties Panel",
     "warning" : "",
