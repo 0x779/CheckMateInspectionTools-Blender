@@ -14,6 +14,7 @@ bl_info = {
 }
 
 from re import S
+from os.path import exists
 import bpy, bmesh
 from mathutils import Vector, Euler, kdtree
 from bpy.props import (
@@ -526,7 +527,7 @@ def checkMissingTextures():
                 if s.material and s.material.use_nodes:
                     for n in s.material.node_tree.nodes:
                         if n.type == 'TEX_IMAGE':
-                            if not n.image.has_data:
+                            if not exists(bpy.path.abspath(n.image.filepath)):
                                 if n.image not in missingTextures:
                                     missingTextures.append(n.image)
                                 if obj not in objMissingTextures:
