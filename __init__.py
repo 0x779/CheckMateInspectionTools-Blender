@@ -322,7 +322,7 @@ class CMI_OT_IsolatedVerticesTest(bpy.types.Operator):
     bl_label = "View vertices"
 
     def execute(self, context):
-        checkLooseVerts(=(True)
+        checkLooseVerts(True)
         bpy.ops.view3d.view_selected()
         return {'FINISHED'}
 
