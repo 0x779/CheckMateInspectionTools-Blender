@@ -218,7 +218,7 @@ class CMIResults_PT_panel_3(CMIResults_panel, bpy.types.Panel):
             addTestUI("Faces", cmiProperties.sceneFaces, layout, cmiProperties.sceneFacesResult, None)
             addTestUI("Quads", cmiProperties.sceneQuads, layout, cmiProperties.sceneQuadsResult, None)
             addTestUI("Triangles", cmiProperties.sceneTriangles, layout, cmiProperties.sceneTrianglesResult, None)
-
+            addTestUI("N-Gons", cmiProperties.sceneNgons, layout, cmiProperties.sceneNgonsResult, None)
 
 class CMIResults_PT_panel_4(CMIResults_panel, bpy.types.Panel):
     bl_parent_id = "CMIResults_PT_panel_1"
@@ -757,6 +757,11 @@ def startTest(context, type):
             for test in geometryTests:
                 cmiProperties[test] = getSceneStats()[1][test]
                 cmiProperties[geometryTests[test]] = 1
+
+            # Get N-gons, no test
+            cmiProperties.sceneNgons = getSceneStats()[1]["sceneNgons"]
+            cmiProperties.sceneNgonsResult = 1
+
 
             # Test materials
             cmiProperties.sceneObjectsNoMat = len(checkMissingMaterials()[1])
