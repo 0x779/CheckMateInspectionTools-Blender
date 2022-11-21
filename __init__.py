@@ -4,7 +4,7 @@ bl_info = {
     "name" : "CheckMate Inspection Tools",
     "description" : "CheckMate Pro/Lite Inspection Tools for Blender",
     "author" : "0x779",
-    "version" : (0, 1, 1),
+    "version" : (0, 1, 2),
     "blender" : (2, 80, 0),
     "location" : "View3D and Properties Panel",
     "warning" : "",
@@ -267,7 +267,8 @@ class CMI_OT_DefaultNamesTest(bpy.types.Operator):
     bl_idname = "scene.defaultnamestest"
     bl_label = "Select objects"
 
-    def execute(self, context):            
+    def execute(self, context):
+        showAll()            
         for obj in checkDefaultNames()[1]:
             obj.select_set(True)
             bpy.context.view_layer.objects.active = obj
@@ -280,7 +281,8 @@ class CMI_OT_InvalidTransformsTest(bpy.types.Operator):
     bl_idname = "scene.invalidtransformstest"
     bl_label = "Select objects"
 
-    def execute(self, context):            
+    def execute(self, context):
+        showAll()            
         for obj in checkValidTransforms()[1]:
             obj.select_set(True)
             bpy.context.view_layer.objects.active = obj
@@ -294,7 +296,8 @@ class CMI_OT_SelectTrianglesTest(bpy.types.Operator):
     bl_idname = "scene.selectrianglestest"
     bl_label = "View Triangles"
 
-    def execute(self, context):    
+    def execute(self, context):
+        showAll()
         for obj in bpy.context.scene.objects:
             if (obj.type == "MESH"):
                 bpy.context.view_layer.objects.active = obj
@@ -308,7 +311,8 @@ class CMI_OT_SelectNgonsTest(bpy.types.Operator):
     bl_idname = "scene.selectngonstest"
     bl_label = "View N-gons"
 
-    def execute(self, context):    
+    def execute(self, context):
+        showAll()    
         for obj in bpy.context.scene.objects:
             if (obj.type == "MESH"):
                 bpy.context.view_layer.objects.active = obj
@@ -541,6 +545,8 @@ def checkMissingMaterials():
     objMissingMaterials = []
     for obj in bpy.context.scene.objects:
         if (obj.type == "MESH"):
+            for m in obj.material_slots:
+                objMissingMaterials.append(obj)
             if not len(obj.material_slots) > 0:
                 objMissingMaterials.append(obj)
     return False if len(objMissingMaterials) > 0 else True, objMissingMaterials
@@ -678,6 +684,13 @@ def checkValidTransforms():
 #    Helper functions
 # ------------------------------------------------------------------------
 
+def showAll():
+    for col in bpy.context.view_layer.layer_collection.children:
+        col.hide_viewport = False
+    for obj in bpy.data.objects:    
+        obj.hide_viewport = False
+        obj.hide_set(False)
+
 def is_object_in_collection(object_name, collection_name):
     object = bpy.data.objects.get(object_name)
     if not object:
@@ -773,6 +786,9 @@ def startTest(context, type):
 
 
         case "pro":
+
+            # First, unhide everything
+            showAll()
 
             # Test objects
             for test in objectsTests:
