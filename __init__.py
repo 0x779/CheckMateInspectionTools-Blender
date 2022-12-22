@@ -543,11 +543,15 @@ def checkMissingTextures():
 # Returns TRUE or FALSE, number of missing materials, list of objects with missing materials
 def checkMissingMaterials():
     objMissingMaterials = []
+    emptySlots = 0
     for obj in bpy.context.scene.objects:
         if (obj.type == "MESH"):
             for m in obj.material_slots:
-                objMissingMaterials.append(obj)
+                if not m.material:
+                    emptySlots += 1
             if not len(obj.material_slots) > 0:
+                objMissingMaterials.append(obj)
+            if emptySlots > 0:
                 objMissingMaterials.append(obj)
     return False if len(objMissingMaterials) > 0 else True, objMissingMaterials
 
