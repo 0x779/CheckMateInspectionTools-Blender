@@ -614,7 +614,7 @@ def checkOverlappingVerts(distance, selectVerts):
             
         if not selectVerts: bpy.ops.object.mode_set(mode="OBJECT")
         
-    return False if overlappingVerts > 0 else True, overlappingVerts, objOverlappingVerts
+    return True if overlappingVerts > 0 else False, overlappingVerts, objOverlappingVerts
 
 # Do objects have overlapping faces?
 # Returns TRUE or FALSE, number of overlapping faces, number of objects with overlapping faces
@@ -662,7 +662,7 @@ def checkOverlappingFaces(distance, selectVerts):
             
         if not selectVerts: bpy.ops.object.mode_set(mode="OBJECT")
         
-    return False if overlappingFaces > 0 else True, overlappingFaces, objOverlappingFaces
+    return True if overlappingFaces > 0 else False, overlappingFaces, objOverlappingFaces
 
 # Do objects have default names?
 # Returns TRUE or FALSE, list of objects with default names
@@ -761,6 +761,7 @@ def showSubdiv(show, obj):
 
 
 def startTest(context, type):
+    resetTests(context)
     cmiProperties = context.scene.cmi_tool
     match type:
         case "lite":
@@ -833,10 +834,10 @@ def startTest(context, type):
             cmiProperties.sceneIsolatedVerticesResult = 1 if checkLooseVerts(False)[0] else 0
 
             cmiProperties.sceneOverlappingVertices = checkOverlappingVerts(0.0001, False)[1]
-            cmiProperties.sceneOverlappingVerticesResult = 1 if checkOverlappingVerts(0.0001, False)[0] else 0
+            cmiProperties.sceneOverlappingVerticesResult = 0 if checkOverlappingVerts(0.0001, False)[0] else 1
 
             cmiProperties.sceneOverlappingFaces = checkOverlappingFaces(0.0001, False)[1]
-            cmiProperties.sceneOverlappingFacesResult = 1 if checkOverlappingFaces(0.0001, False)[0] else 0
+            cmiProperties.sceneOverlappingFacesResult = 0 if checkOverlappingFaces(0.0001, False)[0] else 1
 
             # Test materials
             cmiProperties.sceneObjectsNoMat = len(checkMissingMaterials()[1])
